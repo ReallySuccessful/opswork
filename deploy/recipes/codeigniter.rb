@@ -17,4 +17,5 @@ node[:deploy].each do |application, deploy|
     application deploy
     cookbook "nginx-app"
   end
+  
 end
