@@ -1,5 +1,0 @@
-include_recipe "easybib::setup"
-include_recipe "loggly::setup"
-include_recipe "haproxy::down"
-include_recipe "haproxy::ctl"
-include_recipe "deploy::ssl"
