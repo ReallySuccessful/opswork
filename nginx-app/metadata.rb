@@ -10,4 +10,6 @@ recipe            "nginx-app::configure", "Configures virtualhost, etc."
 depends "php-fpm"
 depends "apt"
 
-supports 'ubuntu'
+%w{ ubuntu debian }.each do |os|
+  supports os
+end
