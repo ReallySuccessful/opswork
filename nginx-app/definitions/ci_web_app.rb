@@ -70,6 +70,5 @@ define :ci_web_app, :template => "site.erb", :enable => true do
     end
   end
 
-  notifies :reload, "service[nginx]"
 
 end
