@@ -11,13 +11,6 @@ include_recipe "php-suhosin"
 include_recipe "unfuddle-ssl-fix::install"
 #include_recipe "deploy::easybib"
 
-if is_aws()
-  include_recipe "nginx-app::configure"
-else
-  include_recipe "memcache"
-  include_recipe "nginx-app::vagrant"
-end
+include_recipe "nginx-app::configure"
 
-if is_aws()
-  include_recipe "newrelic"
-end
+include_recipe "newrelic"
