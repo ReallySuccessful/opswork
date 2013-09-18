@@ -1,6 +1,7 @@
 default["php-fpm"] = {}
 
 default["php-fpm"]["prefix"] = "/opt/leadrush"
+
 mkdir -p "/opt/leadrush"
 mkdir -p "/opt/leadrush/etc"
 
