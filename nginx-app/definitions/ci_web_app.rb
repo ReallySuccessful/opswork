@@ -4,7 +4,7 @@ define :ci_web_app, :template => "site.erb", :enable => true do
   application = params[:application]
   application_name = params[:name]
 
-  template "#{node[:nginx-app][:config_dir]}/sites-enabled/#{application_name}.conf" do
+  template "#{node['nginx-app']['config_dir']}/sites-enabled/#{application_name}.conf" do
     Chef::Log.debug("Generating Nginx site template for #{application_name.inspect}")
     source params[:template]
     owner "root"
@@ -18,19 +18,19 @@ define :ci_web_app, :template => "site.erb", :enable => true do
       :application_name => application_name,
       :params => params
     )
-    if File.exists?("#{node[:nginx-app][:config_dir]}/sites-enabled/#{application_name}.conf")
+    if File.exists?("#{node['nginx-app']['config_dir']}/sites-enabled/#{application_name}.conf")
       notifies :reload, "service[nginx]", :delayed
     end
   end
 
-  directory "#{node[:nginx-app][:config_dir]}/ssl" do
+  directory "#{node['nginx-app']['config_dir']}/ssl" do
     action :create
     owner "root"
     group "root"
     mode 0600
   end
 
-  template "#{node[:nginx-app][:config_dir]}/ssl/#{application[:domains].first}.crt" do
+  template "#{node['nginx-app']['config_dir']}/ssl/#{application[:domains].first}.crt" do
     cookbook 'nginx'
     mode '0600'
     source "ssl.key.erb"
@@ -41,7 +41,7 @@ define :ci_web_app, :template => "site.erb", :enable => true do
     end
   end
 
-  template "#{node[:nginx-app][:config_dir]}/ssl/#{application[:domains].first}.key" do
+  template "#{node['nginx-app']['config_dir']}/ssl/#{application[:domains].first}.key" do
     cookbook 'nginx'
     mode '0600'
     source "ssl.key.erb"
@@ -52,7 +52,7 @@ define :ci_web_app, :template => "site.erb", :enable => true do
     end
   end
 
-  template "#{node[:nginx-app][:config_dir]}/ssl/#{application[:domains].first}.ca" do
+  template "#{node['nginx-app']['config_dir']}/ssl/#{application[:domains].first}.ca" do
     cookbook 'nginx'
     mode '0600'
     source "ssl.key.erb"
@@ -63,10 +63,10 @@ define :ci_web_app, :template => "site.erb", :enable => true do
     end
   end
 
-  file "#{node[:nginx-app][:config_dir]}/sites-enabled/default" do
+  file "#{node['nginx-app']['config_dir']}/sites-enabled/default" do
     action :delete
     only_if do
-      File.exists?("#{node[:nginx-app][:config_dir]}/sites-enabled/default")
+      File.exists?("#{node['nginx-app']['config_dir']}/sites-enabled/default")
     end
   end
 
@@ -74,13 +74,13 @@ define :ci_web_app, :template => "site.erb", :enable => true do
     execute "nxensite #{application_name}" do
       command "/usr/sbin/nxensite #{application_name}"
       notifies :reload, "service[nginx]"
-      not_if do File.symlink?("#{node[:nginx-app][:config_dir]}/sites-enabled/#{application_name}.conf") end
+      not_if do File.symlink?("#{node['nginx-app']['config_dir']}/sites-enabled/#{application_name}.conf") end
     end
   else
     execute "nxdissite #{application_name}" do
       command "/usr/sbin/nxdissite #{application_name}"
       notifies :reload, "service[nginx]"
-      only_if do File.symlink?("#{node[:nginx-app][:config_dir]}/sites-enabled/#{application_name}.conf") end
+      only_if do File.symlink?("#{node['nginx-app']['config_dir']}/sites-enabled/#{application_name}.conf") end
     end
   end
 end
