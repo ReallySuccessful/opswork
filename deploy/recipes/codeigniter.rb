@@ -5,7 +5,7 @@ cluster_name   = get_cluster_name()
 
 node["deploy"].each do |application, deploy|
 
-  Chef::Log.info("deploy::easybib - app: #{application}, role: #{instance_roles}")
+  Chef::Log.info("deploy::leadrush - app: #{application}, role: #{instance_roles}")
 
 
 end
