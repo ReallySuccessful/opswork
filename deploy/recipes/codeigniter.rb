@@ -13,9 +13,5 @@ node[:deploy].each do |application, deploy|
     deploy_data deploy
   end
 
-  ci_web_app application do
-    application deploy
-    cookbook "nginx-app"
-  end
   
 end
