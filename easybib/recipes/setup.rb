@@ -10,7 +10,6 @@ base_packages.each do |p|
 end
 
 include_recipe "easybib::nginxstats"
-include_recipe "easybib::cron"
 
 # landscape is buggy
 # https://bugs.launchpad.net/ubuntu/+source/pam/+bug/805423
