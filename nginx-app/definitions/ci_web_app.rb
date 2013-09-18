@@ -70,17 +70,6 @@ define :ci_web_app, :template => "site.erb", :enable => true do
     end
   end
 
-  if params[:enable]
-    execute "nxensite #{application_name}" do
-      command "/usr/sbin/nxensite #{application_name}"
-      notifies :reload, "service[nginx]"
-      not_if do File.symlink?("#{node['nginx-app']['config_dir']}/sites-enabled/#{application_name}.conf") end
-    end
-  else
-    execute "nxdissite #{application_name}" do
-      command "/usr/sbin/nxdissite #{application_name}"
-      notifies :reload, "service[nginx]"
-      only_if do File.symlink?("#{node['nginx-app']['config_dir']}/sites-enabled/#{application_name}.conf") end
-    end
-  end
+  notifies :reload, "service[nginx]"
+
 end
