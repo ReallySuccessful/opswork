@@ -4,7 +4,7 @@ define :ci_web_app, :template => "site.erb", :enable => true do
   application = params[:application]
   application_name = params[:name]
 
-  template "#{node[:nginx-app][:dir]}/sites-enabled/#{application_name}.conf" do
+  template "#{node[:nginx-app][:config_dir]}/sites-enabled/#{application_name}.conf" do
     Chef::Log.debug("Generating Nginx site template for #{application_name.inspect}")
     source params[:template]
     owner "root"
