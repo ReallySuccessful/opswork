@@ -1,0 +1,82 @@
+upstream <%=@upstream%>_phpfpm {
+    server  unix:/var/run/php-fpm/<%= @php_user %>;
+}
+
+server {
+    listen 80;
+
+    index <%=@default_router%> index.php;
+
+<% if !@domain_name.nil? && !@domain_name.empty? -%>
+    server_name <%=@domain_name%>;
+<% end -%>
+
+<% if @xhprof_enable && @xhprof_enable == true -%>
+    location <%=::XHProf.get_path(node)%> {
+        # drop location to serve assets
+        alias <%=@xhprof_root%>;
+
+        index index.php;
+
+        # serve PHP files from xhprof.io
+        location ~* \.php$ {
+            root          <%=@xhprof_root%>/;
+            fastcgi_index index.php;
+            fastcgi_pass  <%=@upstream%>_phpfpm;
+            include       fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME <%=@xhprof_root%>/index.php;
+            fastcgi_param SCRIPT_NAME     $fastcgi_script_name;
+            fastcgi_param PHP_ADMIN_VALUE "short_open_tag=On";
+        }
+    }
+<% end -%>
+
+    location = / {
+        try_files @site @site;
+    }
+
+    #all other locations try other files first and go to our front controller if none of them exists
+    location / {
+        try_files $uri $uri/ @site;
+    }
+
+    root <%= @doc_root%>;
+
+    location ~* \.php$ {
+        fastcgi_index index.php;
+        fastcgi_pass  <%=@upstream%>_phpfpm;
+        include       fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param SCRIPT_NAME     $fastcgi_script_name;
+        <%=@db_conf-%>
+        <%=@domain_conf-%>
+<% if @aws_conf -%>
+        <%=@aws_conf-%>
+<% end -%>
+<% if @xhprof_enable && @xhprof_enable == true -%>
+        set $php_value "auto_prepend_file=<%=@xhprof_root%>/inc/prepend.php";
+        set $php_value "$php_value \n auto_append_file=<%=@xhprof_root%>/inc/append.php";
+        fastcgi_param PHP_VALUE $php_value;
+<% end -%>
+    }
+
+    location ~* \.(eot|ttf|woff)$ {
+        add_header Access-Control-Allow-Origin *;
+    }
+
+    location @site {
+            fastcgi_pass  <%=@upstream%>_phpfpm;
+            include       fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $document_root/<%=@default_router%>;
+            <%=@db_conf-%>
+            <%=@domain_conf-%>
+<% if @aws_conf -%>
+            <%=@aws_conf%>
+<% end -%>
+<% if @xhprof_enable && @xhprof_enable == true -%>
+            set $php_value "auto_prepend_file=<%=@xhprof_root%>/inc/prepend.php";
+            set $php_value "$php_value \n auto_append_file=<%=@xhprof_root%>/inc/append.php";
+            fastcgi_param PHP_VALUE $php_value;
+<% end -%>
+    }
+}
