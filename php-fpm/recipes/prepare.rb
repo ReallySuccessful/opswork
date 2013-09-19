@@ -1,6 +1,6 @@
 # little fix to create symbolic name for php5-fpm service name
 execute "fix php-fpm service name" do
-  command "ln -s /etc/init.d/php5-fpm /etc/init.d/php-fpm"
+  command "rm -Rf /etc/init.d/php-fpm && ln -s /etc/init.d/php5-fpm /etc/init.d/php-fpm"
 end
 
 directory node["php-fpm"]["tmpdir"] do
