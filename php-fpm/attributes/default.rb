@@ -1,6 +1,6 @@
 default["php-fpm"] = {}
 
-default["php-fpm"]["prefix"] = "/opt/easybib"
+default["php-fpm"]["prefix"] = "/"
 
 default["php-fpm"]["logfile"] = "/var/log/php/error.log"
 default["php-fpm"]["slowlog"] = "/var/log/php/slow.log"

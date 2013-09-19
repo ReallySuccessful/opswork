@@ -1,5 +1,5 @@
 [global]
-pid = <%= node["php-fpm"]["prefix"] %>/var/run/php-fpm.pid
+pid = /var/run/php-fpm.pid
 error_log = <%= node["php-fpm"]["fpmlog"] %>
 log_level = notice
 
@@ -24,12 +24,6 @@ emergency_restart_interval = 30s
 process_control_timeout = 10s
 
 daemonize = yes
-
-<% if !::EasyBib.is_aws(node) && node["users"] -%>
-
-include=<%= node["php-fpm"]["prefix"] %>/etc/php-fpm/*.conf
-
-<% else -%>
 
 [www]
 
