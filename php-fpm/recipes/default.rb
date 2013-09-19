@@ -1,3 +1,4 @@
+include_recipe "php-fpm::service"
 include_recipe "php-fpm::prepare"
 
 if !node["php-fpm"]["packages"].empty?
