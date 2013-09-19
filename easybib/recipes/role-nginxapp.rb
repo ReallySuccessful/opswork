@@ -11,6 +11,6 @@ include_recipe "php-suhosin"
 #include_recipe "unfuddle-ssl-fix::install"
 #include_recipe "deploy::easybib"
 
-include_recipe "nginx-app::configure"
+#include_recipe "nginx-app::configure"
 
-include_recipe "newrelic"
+#include_recipe "newrelic"
