@@ -1,6 +1,6 @@
 base_packages = [
   "htop", "jwhois", "multitail",
-  "apache2-utils", "strace", "rsync",
+   "strace", "rsync",
   "manpages", "manpages-dev", "nscd",
   "subversion", "git-core", "unzip"
 ]
