@@ -11,7 +11,6 @@ end
 
 service "nginx" do
   supports :status => true, :restart => true, :reload => true
-  action [ :enable, :start ]
 end
 
 template "/etc/nginx/fastcgi_params" do
@@ -33,3 +32,7 @@ execute "delete default vhost" do
   command "rm -f /etc/nginx/sites-enabled/default"
 end
 
+# restart nginx
+execute "nginx restart" do
+  command "/etc/init.d/nginx restart"
+end
