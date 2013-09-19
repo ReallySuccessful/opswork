@@ -33,3 +33,10 @@ directory node["php-fpm"]["socketdir"] do
   owner node["php-fpm"]["user"]
   group node["php-fpm"]["group"]
 end
+
+# little fix to create symbolic name for php5-fpm service name
+execute "fix php-fpm service name" do
+  command "ln -s /etc/init.d/php5-fpm /etc/init.d/php-fpm"
+end
+
+

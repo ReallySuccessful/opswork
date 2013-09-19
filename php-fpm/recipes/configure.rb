@@ -17,7 +17,7 @@ template "#{etc_fpm_dir}/#{conf_fpm}" do
   )
   owner    node["php-fpm"]["user"]
   group    node["php-fpm"]["group"]
-  notifies :reload, "service[php5-fpm]", :delayed
+  notifies :restart, "service[php5-fpm]", :delayed
 end
 
 template "#{etc_cli_dir}/#{conf_cli}" do
@@ -37,7 +37,7 @@ template "#{etc_fpm_dir}/php-fpm.conf" do
   source   "php-fpm.conf.erb"
   owner    node["php-fpm"]["user"]
   group    node["php-fpm"]["group"]
-  notifies :reload, "service[php5-fpm]", :delayed
+  notifies :restart, "service[php5-fpm]", :delayed
 end
 
 template "/etc/logrotate.d/php" do

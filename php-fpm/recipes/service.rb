@@ -1,4 +1,4 @@
-service_name = "php5-fpm"
+service_name = "php-fpm"
 
 service "php5-fpm" do
   service_name service_name
