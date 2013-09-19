@@ -19,9 +19,10 @@ node[:deploy].each do |application, deploy|
 
   ## we take the assets dir and create a sym link so they are available in all release but we always keep the last version (overwirted)
   execute "make a backup of assets directory and put it in the shared" do
-    command "mv #{deploy[:deploy_to]}/current/assets/ #{deploy[:deploy_to]}/current/assets_temp/ && ln -s #{deploy[:deploy_to]}/shared/assets/ #{deploy[:deploy_to]}/current/assets/ && cp -R #{deploy[:deploy_to]}/current/assets_temp/* #{deploy[:deploy_to]}/current/assets/ && rm -Rf #{deploy[:deploy_to]}/current/assets_temp/"
+    command "mv #{deploy[:deploy_to]}/current/assets/ #{deploy[:deploy_to]}/current/assets_temp/ && ln -s #{deploy[:deploy_to]}/shared/assets/ #{deploy[:deploy_to]}/current/assets && cp -R #{deploy[:deploy_to]}/current/assets_temp/* #{deploy[:deploy_to]}/current/assets/ && rm -Rf #{deploy[:deploy_to]}/current/assets_temp/"
   end
-  
+
+
 end
 
 execute "nginx restart" do
