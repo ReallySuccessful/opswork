@@ -1,3 +1,7 @@
+upstream phpfpm {
+    server  unix:/var/run/php-fpm/<%= node["php-fpm"][:user] %>;
+}
+
 server {
   listen   80;
   server_name  <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
@@ -33,7 +37,7 @@ server {
 
   location ~* \.php$ {
     fastcgi_index index.php;
-    fastcgi_pass 127.0.0.1:9000;
+    fastcgi_pass phpfpm;
     include       fastcgi_params;
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     fastcgi_param SCRIPT_NAME     $fastcgi_script_name;
@@ -71,7 +75,7 @@ server {
 
   location ~* \.php$ {
     fastcgi_index index.php;
-    fastcgi_pass 127.0.0.1:9000;
+    fastcgi_pass phpfpm;
     include       fastcgi_params;
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     fastcgi_param SCRIPT_NAME     $fastcgi_script_name;
