@@ -19,6 +19,6 @@ node[:deploy].each do |application, deploy|
   
 end
 
-service "nginx" do
-  action :reload
+execute "nginx restart" do
+  command "/etc/init.d/nginx restart"
 end
