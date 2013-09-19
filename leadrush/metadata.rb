@@ -1,6 +1,6 @@
 name              "leadrush"
-maintainer        "Till Klampaeckel"
-maintainer_email  "till@php.net"
+maintainer        "David Lemarier"
+maintainer_email  "david@reallysuccessful.com"
 license           "BSD License"
 description       "Tools we'd like on all servers."
 version           "0.1"
