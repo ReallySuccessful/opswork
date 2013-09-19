@@ -21,3 +21,7 @@ node[:deploy].each do |application, deploy|
   end
   
 end
+
+service "nginx" do
+  action :reload
+end
