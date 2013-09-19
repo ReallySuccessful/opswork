@@ -1,16 +1,12 @@
 name              "deploy"
-maintainer        "Till Klampaeckel, Ulf Harnhammar"
-maintainer_email  "till@php.net"
+maintainer        "David Lemarier"
+maintainer_email  "david@reallysuccessful.com"
 license           "BSD License"
-description       "Deploys easybib"
+description       "Deploys Leadrush APP"
 version           "0.1"
-recipe            "deploy::easybib", "Deploys c0dez!!!1"
-recipe            "deploy::playground", "To set-up the correct environment for 'playground'"
-recipe            "deploy::ssl", "Deploys nginx as an SSL termination reverse proxy"
+recipe            "deploy::codeigniter", "Deploys CI c0dez!!!"
 
 supports 'ubuntu'
 
-depends "bibcd"
 depends "php-fpm"
-depends "prosody"
-depends "nginx-lb"
+depends "nginx-app"
