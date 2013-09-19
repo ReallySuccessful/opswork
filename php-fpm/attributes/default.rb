@@ -14,4 +14,4 @@ default["php-fpm"]["group"] = "www-data"
 default["php-fpm"]["tmpdir"] = "/tmp/php"
 default["php-fpm"]["socketdir"] = "/var/run/php-fpm"
 
-default["php-fpm"]["packages"] = "php5,php5-cli,php5-memcache,php5-gd,php5-curl,php-apc,php5-mysql"
+default["php-fpm"]["packages"] = "php5,php5-fpm,php5-cli,php5-memcache,php5-gd,php5-curl,php-apc,php5-mysql"
