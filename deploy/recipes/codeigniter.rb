@@ -1,8 +1,5 @@
 include_recipe "php-fpm::service"
 
-instance_roles = get_instance_roles()
-cluster_name   = get_cluster_name()
-
 node[:deploy].each do |application, deploy|
   opsworks_deploy_dir do
     user deploy[:user]
