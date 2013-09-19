@@ -1,4 +1,4 @@
-define :opsworks_deploy_dir do
+define :ci_deploy_dir do
 
   directory "#{params[:path]}/shared" do
     group params[:group]
