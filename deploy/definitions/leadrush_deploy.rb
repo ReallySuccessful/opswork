@@ -109,7 +109,6 @@ define :leadrush_deploy do
 
 
           template "#{node[:deploy][application][:deploy_to]}/shared/config/opswork.php" do
-            cookbook 'php'
             source 'leadrush_config.php.erb'
             mode '0660'
             owner node[:deploy][application][:user]
@@ -145,5 +144,5 @@ define :leadrush_deploy do
     variables( :log_dirs => ["#{deploy[:deploy_to]}/shared/log" ] )
   end
 
-  
+
 end
