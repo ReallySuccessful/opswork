@@ -20,11 +20,9 @@ node[:deploy].each do |application, deploy|
 end
 
 execute "nginx restart" do
-  ignore_failure true
   command "/etc/init.d/nginx restart"
 end
 
 execute "php5-fpm restart" do
-  ignore_failure true  
   command "/etc/init.d/php5-fpm restart"
 end

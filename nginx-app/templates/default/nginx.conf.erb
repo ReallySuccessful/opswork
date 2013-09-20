@@ -20,5 +20,9 @@ http {
     tcp_nodelay        on;
     gzip               on;
 
+    upstream phpfpm {
+        server  unix:/var/run/php-fpm/<%= node["nginx-app"][:user] %>;
+    }
+
     include /etc/nginx/sites-enabled/*.conf;
 }

@@ -1,10 +1,6 @@
-upstream phpfpm {
-    server  unix:/var/run/php-fpm/<%= node["php-fpm"][:user] %>;
-}
-
 server {
   listen   80;
-  server_name  <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
+  server_name  <%= @application[:domains].join(" ") %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>.access.log;
   index index.php;
   root   <%= @application[:absolute_document_root] %>;
@@ -49,7 +45,7 @@ server {
 <% if @application[:ssl_support] %>
 server {
   listen   443;
-  server_name  <%= @application[:domains].join(" ") %> <%= node[:hostname] %>;
+  server_name  <%= @application[:domains].join(" ") %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>-ssl.access.log;
   index index.php;
   ssl on;
