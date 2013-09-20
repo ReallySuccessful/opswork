@@ -9,7 +9,7 @@ define :ci_deploy_dir do
   end
 
   # create shared/ directory structure
-  ['config'].each do |dir_name|
+  ['config','system','log'].each do |dir_name|
     directory "#{params[:path]}/shared/#{dir_name}" do
       group params[:group]
       owner params[:user]
