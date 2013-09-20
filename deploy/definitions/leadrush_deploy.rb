@@ -62,7 +62,6 @@ define :leadrush_deploy do
   # setup deployment & checkout
   if deploy[:scm] && deploy[:scm][:scm_type] != 'other'
     Chef::Log.debug("Checking out source code of application #{application} with type #{deploy[:application_type]}")
-    
     deploy deploy[:deploy_to] do
       repository deploy[:scm][:repository]
       user deploy[:user]
@@ -96,19 +95,31 @@ define :leadrush_deploy do
       before_migrate do
         link_tempfiles_to_current_release
 
-        # run user provided callback file
-        run_callback_from_file("#{release_path}/deploy/before_migrate.rb")
-      end
+        if deploy[:application_type] == 'rails'
+          if deploy[:auto_bundle_on_deploy]
+            OpsWorks::RailsConfiguration.bundle(application, node[:deploy][application], release_path)
+          end
 
-    end
-
-  end
-
-  current_version = `cd #{node[:deploy][application][:deploy_to]}/current/ && git describe`
-  Chef::Log.debug("Current GIT version #{current_version}")
-
-
-          template "#{node[:deploy][application][:deploy_to]}/shared/config/opswork.php" do
+          node.default[:deploy][application][:database][:adapter] = OpsWorks::RailsConfiguration.determine_database_adapter(
+            application,
+            node[:deploy][application],
+            release_path,
+            :force => node[:force_database_adapter_detection],
+            :consult_gemfile => node[:deploy][application][:auto_bundle_on_deploy]
+          )
+          template "#{node[:deploy][application][:deploy_to]}/shared/config/database.yml" do
+            cookbook "rails"
+            source "database.yml.erb"
+            mode "0660"
+            owner node[:deploy][application][:user]
+            group node[:deploy][application][:group]
+            variables(
+              :database => node[:deploy][application][:database],
+              :environment => node[:deploy][application][:rails_env]
+            )
+          end.run_action(:create)
+        elsif deploy[:application_type] == 'php'
+          template "#{node[:deploy][application][:deploy_to]}/shared/config/opsworks.php" do
             source 'leadrush_config.php.erb'
             mode '0660'
             owner node[:deploy][application][:user]
@@ -117,14 +128,23 @@ define :leadrush_deploy do
               :database => node[:deploy][application][:database],
               :memcached => node[:deploy][application][:memcached],
               :layers => node[:opsworks][:layers],
-              :stack_name => node[:opsworks][:stack][:name],
-              :revision => current_version
+              :stack_name => node[:opsworks][:stack][:name]
             )
             only_if do
               File.exists?("#{node[:deploy][application][:deploy_to]}/shared/config")
             end
           end
+        elsif deploy[:application_type] == 'nodejs'
+          if deploy[:auto_npm_install_on_deploy]
+            OpsWorks::NodejsConfiguration.npm_install(application, node[:deploy][application], release_path)
+          end
+        end
 
+        # run user provided callback file
+        run_callback_from_file("#{release_path}/deploy/before_migrate.rb")
+      end
+    end
+  end
 
   ruby_block "change HOME back to /root after source checkout" do
     block do
@@ -132,7 +152,25 @@ define :leadrush_deploy do
     end
   end
 
+  if deploy[:application_type] == 'rails' && node[:opsworks][:instance][:layers].include?('rails-app')
+    case node[:opsworks][:rails_stack][:name]
 
+    when 'apache_passenger'
+      passenger_web_app do
+        application application
+        deploy deploy
+      end
+
+    when 'nginx_unicorn'
+      unicorn_web_app do
+        application application
+        deploy deploy
+      end
+
+    else
+      raise "Unsupport Rails stack"
+    end
+  end
 
   template "/etc/logrotate.d/opsworks_app_#{application}" do
     backup false
@@ -143,6 +181,4 @@ define :leadrush_deploy do
     mode 0644
     variables( :log_dirs => ["#{deploy[:deploy_to]}/shared/log" ] )
   end
-
-
 end
