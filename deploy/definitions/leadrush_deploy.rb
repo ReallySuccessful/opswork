@@ -128,7 +128,9 @@ define :leadrush_deploy do
               :database => node[:deploy][application][:database],
               :memcached => node[:deploy][application][:memcached],
               :layers => node[:opsworks][:layers],
-              :stack_name => node[:opsworks][:stack][:name]
+              :stack_name => node[:opsworks][:stack][:name],
+              # TODO: we need to fond a way to extract the current git tag
+              :revision => ""
             )
             only_if do
               File.exists?("#{node[:deploy][application][:deploy_to]}/shared/config")
