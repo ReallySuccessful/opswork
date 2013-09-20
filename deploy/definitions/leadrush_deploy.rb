@@ -63,8 +63,6 @@ define :leadrush_deploy do
   if deploy[:scm] && deploy[:scm][:scm_type] != 'other'
     Chef::Log.debug("Checking out source code of application #{application} with type #{deploy[:application_type]}")
     
-    Chef::Log.debug(deploy[:scm])
-
     deploy deploy[:deploy_to] do
       repository deploy[:scm][:repository]
       user deploy[:user]
@@ -122,6 +120,8 @@ define :leadrush_deploy do
             )
           end.run_action(:create)
         elsif deploy[:application_type] == 'php'
+
+
           template "#{node[:deploy][application][:deploy_to]}/shared/config/opsworks.php" do
             cookbook 'php'
             source 'opsworks.php.erb'
@@ -149,6 +149,9 @@ define :leadrush_deploy do
       end
     end
   end
+
+  current_version = `cd #{node[:deploy][application][:deploy_to]}/current/ && git describe`
+  Chef::Log.debug("Current version #{current_version}")
 
   ruby_block "change HOME back to /root after source checkout" do
     block do
