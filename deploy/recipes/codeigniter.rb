@@ -7,7 +7,7 @@ node[:deploy].each do |application, deploy|
     path deploy[:deploy_to]
   end
 
-  opsworks_deploy do
+  leadrush_deploy do
     app application
     deploy_data deploy
   end
