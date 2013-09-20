@@ -98,9 +98,10 @@ define :leadrush_deploy do
 
         # run user provided callback file
         run_callback_from_file("#{release_path}/deploy/before_migrate.rb")
-
       end
+
     end
+
   end
 
   current_version = `cd #{node[:deploy][application][:deploy_to]}/current/ && git describe`
@@ -118,7 +119,7 @@ define :leadrush_deploy do
               :memcached => node[:deploy][application][:memcached],
               :layers => node[:opsworks][:layers],
               :stack_name => node[:opsworks][:stack][:name],
-              :revision => current_version,
+              :revision => current_version
             )
             only_if do
               File.exists?("#{node[:deploy][application][:deploy_to]}/shared/config")
@@ -143,4 +144,6 @@ define :leadrush_deploy do
     mode 0644
     variables( :log_dirs => ["#{deploy[:deploy_to]}/shared/log" ] )
   end
+
+  
 end
