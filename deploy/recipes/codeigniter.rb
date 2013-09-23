@@ -2,9 +2,9 @@ include_recipe "php-fpm::service"
 
 instance_layer = node["opsworks"]["instance"]["layers"]
 
-node[:deploy].each do |application, deploy|
+node[:deploy].each do |application, deploy_data|
 
-  app_role = deploy[:deploy_layer]
+  app_role = deploy_data[:deploy_layer]
 
   if !instance_layer.include?("develop")
 
@@ -18,34 +18,31 @@ node[:deploy].each do |application, deploy|
   else
 
 
-    Chef::Log.debug(deploy)
+    Chef::Log.debug(deploy_data)
     Chef::Log.debug("[LEADRUSH] DEVELOPMENT MODE // APP ROLE: #{app_role} ON LAYER: #{instance_layer}")
     
-    Chef::Log.debug(deploy.revision)
-    Chef::Log.debug(node.deploy.revision)
-
-    deploy["revision"] = "develop"
+    #deploy["revision"] = "develop"
     #default.deploy.domains = deploy[:beta_domains]
-    #set[:deploy][:keepalivetimeout] : 5,
+    deploy_data['revision'] = "develop"
 
     Chef::Log.debug("[LEADRUSH] DEPLOY #{deploy[:revision]} BETA DOMAINS:")
-    Chef::Log.debug(deploy[:domains])
+    Chef::Log.debug(deploy_data[:domains])
 
   end  
 
   ci_deploy_dir do
-    user deploy[:user]
-    group deploy[:group]
-    path deploy[:deploy_to]
+    user deploy_data[:user]
+    group deploy_data[:group]
+    path deploy_data[:deploy_to]
   end
 
   leadrush_deploy do
     app application
-    deploy_data deploy
+    deploy_data deploy_data
   end
 
   ci_web_app application do
-    application deploy
+    application deploy_data
     cookbook "nginx-app"
   end
 
