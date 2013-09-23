@@ -46,5 +46,5 @@ template "/etc/logrotate.d/php" do
   owner "root"
   group "root"
   notifies :enable, "service[php5-fpm]"
-  notifies :start, "service[php5-fpm]"
+  notifies :restart, "service[php5-fpm]"
 end
