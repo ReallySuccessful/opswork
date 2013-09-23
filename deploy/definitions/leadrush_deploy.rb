@@ -129,7 +129,7 @@ define :leadrush_deploy do
               :memcached => node[:deploy][application][:memcached],
               :layers => node[:opsworks][:layers],
               :stack_name => node[:opsworks][:stack][:name],
-              # TODO: we need to fond a way to extract the current git tag
+              # TODO: we need to found a way to extract the current git tag
               :revision => ""
             )
             only_if do

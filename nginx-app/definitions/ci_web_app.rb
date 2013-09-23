@@ -22,47 +22,51 @@ define :ci_web_app, :template => "site.erb", :enable => true do
       notifies :reload, "service[nginx]", :delayed
     end
   end
-
-  directory "#{node['nginx-app']['config_dir']}/ssl" do
-    action :create
-    owner "root"
-    group "root"
-    mode 0600
-  end
-
-  template "#{node['nginx-app']['config_dir']}/ssl/#{application[:domains].first}.crt" do
-    cookbook 'nginx'
-    mode '0600'
-    source "ssl.key.erb"
-    variables :key => application[:ssl_certificate]
-    notifies :restart, "service[nginx]"
-    only_if do
-      application[:ssl_support]
+  
+  if application[:ssl_support]
+  
+    directory "#{node['nginx-app']['config_dir']}/ssl" do
+      action :create
+      owner "root"
+      group "root"
+      mode 0600
     end
-  end
 
-  template "#{node['nginx-app']['config_dir']}/ssl/#{application[:domains].first}.key" do
-    cookbook 'nginx'
-    mode '0600'
-    source "ssl.key.erb"
-    variables :key => application[:ssl_certificate_key]
-    notifies :restart, "service[nginx]"
-    only_if do
-      application[:ssl_support]
+    template "#{node['nginx-app']['config_dir']}/ssl/#{application[:domains].first}.crt" do
+      cookbook 'nginx'
+      mode '0600'
+      source "ssl.key.erb"
+      variables :key => application[:ssl_certificate]
+      notifies :restart, "service[nginx]"
+      only_if do
+        application[:ssl_support]
+      end
     end
-  end
 
-  template "#{node['nginx-app']['config_dir']}/ssl/#{application[:domains].first}.ca" do
-    cookbook 'nginx'
-    mode '0600'
-    source "ssl.key.erb"
-    variables :key => application[:ssl_certificate_ca]
-    notifies :restart, "service[nginx]"
-    only_if do
-      application[:ssl_support] && application[:ssl_certificate_ca]
+    template "#{node['nginx-app']['config_dir']}/ssl/#{application[:domains].first}.key" do
+      cookbook 'nginx'
+      mode '0600'
+      source "ssl.key.erb"
+      variables :key => application[:ssl_certificate_key]
+      notifies :restart, "service[nginx]"
+      only_if do
+        application[:ssl_support]
+      end
     end
-  end
 
+    template "#{node['nginx-app']['config_dir']}/ssl/#{application[:domains].first}.ca" do
+      cookbook 'nginx'
+      mode '0600'
+      source "ssl.key.erb"
+      variables :key => application[:ssl_certificate_ca]
+      notifies :restart, "service[nginx]"
+      only_if do
+        application[:ssl_support] && application[:ssl_certificate_ca]
+      end
+    end
+
+  end
+    
   file "#{node['nginx-app']['config_dir']}/sites-enabled/default" do
     action :delete
     only_if do
