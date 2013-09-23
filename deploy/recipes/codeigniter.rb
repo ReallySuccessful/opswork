@@ -17,16 +17,12 @@ node[:deploy].each do |application, deploy_data|
 
   else
 
-
-    Chef::Log.debug(deploy_data)
     Chef::Log.debug("[LEADRUSH] DEVELOPMENT MODE // APP ROLE: #{app_role} ON LAYER: #{instance_layer}")
     
-    #deploy["revision"] = "develop"
-    #default.deploy.domains = deploy[:beta_domains]
     deploy_data['revision'] = "develop"
+    deploy_data['domains'] = deploy_data[:domains]
 
-    Chef::Log.debug("[LEADRUSH] DEPLOY #{deploy[:revision]} BETA DOMAINS:")
-    Chef::Log.debug(deploy_data[:domains])
+    Chef::Log.debug("[LEADRUSH] DEPLOY #{deploy_data[:revision]} BETA DOMAINS:")
 
   end  
 
