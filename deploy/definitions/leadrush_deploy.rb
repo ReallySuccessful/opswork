@@ -126,8 +126,9 @@ define :leadrush_deploy do
             group node[:deploy][application][:group]
 
             # get current version
-            find = Chef::ShellOut.new("cd #{node[:deploy][application][:deploy_to]}/current/ && git describe")
+            find = Chef::ShellOut.new("cd #{node[:deploy][application][:deploy_to]}/current/ && git describe --tags")
             find.run_command
+            Chef::Log.debug("CURRENT APP VERSION: #{find.stdout}")
             variables(
               :database => node[:deploy][application][:database],
               :memcached => node[:deploy][application][:memcached],
