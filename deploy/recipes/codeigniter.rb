@@ -20,8 +20,10 @@ node[:deploy].each do |application, deploy|
 
     Chef::Log.debug(deploy)
     Chef::Log.debug("[LEADRUSH] DEVELOPMENT MODE // APP ROLE: #{app_role} ON LAYER: #{instance_layer}")
-    node.deploy["revision"] = "develop"
-    node.deploy["domains"] = deploy[:beta_domains]
+    
+    node.default.deploy["revision"] = "develop"
+    node.default.deploy["domains"] = deploy[:beta_domains]
+
     Chef::Log.debug("[LEADRUSH] BETA DOMAINS:")
     Chef::Log.debug(deploy[:domains])
 
