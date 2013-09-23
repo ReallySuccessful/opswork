@@ -19,8 +19,8 @@ node[:deploy].each do |application, deploy_data|
 
     Chef::Log.debug("[LEADRUSH] DEVELOPMENT MODE // APP ROLE: #{app_role} ON LAYER: #{instance_layer}")
     
-    node.override['deploy_data']['revision'] = "develop"
-    node.override['deploy_data']['domains'] = deploy_data[:domains]
+    deploy_data.override['revision'] = "develop"
+    deploy_data.override['domains'] = deploy_data[:domains]
 
     Chef::Log.debug("[LEADRUSH] DEPLOY #{deploy_data[:revision]} BETA DOMAINS:")
     Chef::Log.debug(deploy_data[:domains])
