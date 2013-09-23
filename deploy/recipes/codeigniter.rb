@@ -4,7 +4,7 @@ instance_layer = node["opsworks"]["instance"]["layers"]
 
 node[:deploy].each do |application, deploy|
 
-  app_role = deploy[:deploy_to]
+  app_role = deploy[:deploy_layer]
 
   if !instance_layer.include?("develop")
 
