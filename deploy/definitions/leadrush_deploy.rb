@@ -124,13 +124,17 @@ define :leadrush_deploy do
             mode '0660'
             owner node[:deploy][application][:user]
             group node[:deploy][application][:group]
+
+            # get current version
+            find = Chef::ShellOut.new("cd #{node[:deploy][application][:deploy_to]}/current/ && git describe")
+            find.run_command
             variables(
               :database => node[:deploy][application][:database],
               :memcached => node[:deploy][application][:memcached],
               :layers => node[:opsworks][:layers],
               :stack_name => node[:opsworks][:stack][:name],
               # TODO: we need to found a way to extract the current git tag
-              :revision => ""
+              :revision => find.stdout
             )
             only_if do
               File.exists?("#{node[:deploy][application][:deploy_to]}/shared/config")
