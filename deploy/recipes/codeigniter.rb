@@ -23,6 +23,7 @@ node[:deploy].each do |application, deploy_data|
     node.override['deploy_data']['domains'] = deploy_data[:domains]
 
     Chef::Log.debug("[LEADRUSH] DEPLOY #{deploy_data[:revision]} BETA DOMAINS:")
+    Chef::Log.debug(deploy_data[:domains])
 
   end  
 
