@@ -126,7 +126,7 @@ define :leadrush_deploy do
             group node[:deploy][application][:group]
 
             # get current version
-            find = Chef::ShellOut.new("cd #{node[:deploy][application][:deploy_to]}/current/ && git describe --tags")
+            find = Mixlib::ShellOut.new("cd #{release_path} && git describe --tags")
             find.run_command
             Chef::Log.debug("CURRENT APP VERSION: #{find.stdout}")
             variables(
