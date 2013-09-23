@@ -24,8 +24,9 @@ node[:deploy].each do |application, deploy|
     Chef::Log.debug(deploy.revision)
     Chef::Log.debug(node.deploy.revision)
 
-    deploy.revision = "develop"
-#    default.deploy.domains = deploy[:beta_domains]
+    deploy["revision"] = "develop"
+    #default.deploy.domains = deploy[:beta_domains]
+    #set[:deploy][:keepalivetimeout] : 5,
 
     Chef::Log.debug("[LEADRUSH] DEPLOY #{deploy[:revision]} BETA DOMAINS:")
     Chef::Log.debug(deploy[:domains])
