@@ -46,15 +46,10 @@ node[:deploy].each do |application, deploy_data|
   end
 
   # send post to MAMA
-  deployment_info['hostname'] = node['hostname']
-  deployment_info['application'] = application
-  deployment_info['branch'] = deploy_branch
-  deployment_info['domains'] = deploy_domains
-
   http_request "Alerting mama !" do
     action :post
     url "http://mamabot.herokuapp.com/webhook/dev"
-    message :data => deployment_info
+    message :data => "New deployment on #{node['hostname']} [Application: #{application}@#{deploy_domains.first}// Branch: #{deploy_branch}]"
   end
 
 end
