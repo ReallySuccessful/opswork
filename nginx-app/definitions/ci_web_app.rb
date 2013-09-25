@@ -18,7 +18,7 @@ define :ci_web_app, :template => "site.erb", :enable => true do
     variables(
       :application => application,
       :application_name => application_name,
-      :domains => deploy_type[:domains]
+      :domains => deploy_type[:domains],
       :params => params
     )
     if File.exists?("#{node['nginx-app']['config_dir']}/sites-enabled/#{application_name}.conf")

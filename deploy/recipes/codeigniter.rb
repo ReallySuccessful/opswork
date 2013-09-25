@@ -25,9 +25,8 @@ node[:deploy].each do |application, deploy_data|
 
   end  
 
-  Chef::Log.debug("[LEADRUSH] DEPLOYING: #{application} on  #{deploy_type[:domains]} with branch #{deploy_type[:branch]}")
+  Chef::Log.debug("[LEADRUSH] DEPLOYING: #{application} on  #{deploy_type[:domains].first} with branch #{deploy_type[:branch]}")
   Chef::Log.debug(deploy_type)
-
 
   ci_deploy_dir do
     user deploy_data[:user]
