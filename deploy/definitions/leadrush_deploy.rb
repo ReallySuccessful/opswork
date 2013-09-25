@@ -1,6 +1,7 @@
 define :leadrush_deploy do
   application = params[:app]
   deploy = params[:deploy_data]
+  deploy_branch = params[:deploy_branch]
 
   directory "#{deploy[:deploy_to]}" do
     group deploy[:group]
@@ -66,7 +67,7 @@ define :leadrush_deploy do
       repository deploy[:scm][:repository]
       user deploy[:user]
       group deploy[:group]
-      revision deploy[:scm][:revision]
+      revision deploy_branch
       migrate deploy[:migrate]
       migration_command deploy[:migrate_command]
       environment deploy[:environment].to_hash

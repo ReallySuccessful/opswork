@@ -15,17 +15,17 @@ node[:deploy].each do |application, deploy_data|
         next
     end
 
-    deploy_type[:domains] = deploy_data[:domains]
-    deploy_type[:branch] = "master"
+    deploy_domains = deploy_data[:domains]
+    deploy_branch = "master"
 
   else
 
-    deploy_type[:domains] = deploy_data[:beta_domains]
-    deploy_type[:branch] = "develop"
+    deploy_domains= deploy_data[:beta_domains]
+    deploy_branch = "develop"
 
   end  
 
-  Chef::Log.debug("[LEADRUSH] DEPLOYING: #{application} on  #{deploy_type[:domains].first} with branch #{deploy_type[:branch]}")
+  Chef::Log.debug("[LEADRUSH] DEPLOYING: #{application} on  #{deploy_domains.first} with branch #{deploy_branch}")
   Chef::Log.debug(deploy_type)
 
   ci_deploy_dir do
@@ -37,12 +37,12 @@ node[:deploy].each do |application, deploy_data|
   leadrush_deploy do
     app application
     deploy_data deploy_data
-    deploy_type deploy_type
+    deploy_branch deploy_branch    
   end
 
   ci_web_app application do
     application deploy_data
-    deploy_type deploy_type
+    deploy_domains deploy_domains
     cookbook "nginx-app"
   end
 
