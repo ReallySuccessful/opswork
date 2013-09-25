@@ -1,7 +1,7 @@
 server {
   listen   80;
-  server_name  <%= @application[:domains].join(" ") %>;
-  access_log  <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>.access.log;
+  server_name  <%= @domains.join(" ") %>;
+  access_log  <%= node[:nginx][:log_dir] %>/<%= @domains.first %>.access.log;
   index index.php;
   root   <%= @application[:absolute_document_root] %>;
   
@@ -45,14 +45,14 @@ server {
 <% if @application[:ssl_support] %>
 server {
   listen   443;
-  server_name  <%= @application[:domains].join(" ") %>;
-  access_log  <%= node[:nginx][:log_dir] %>/<%= @application[:domains].first %>-ssl.access.log;
+  server_name  <%= @domains.join(" ") %>;
+  access_log  <%= node[:nginx][:log_dir] %>/<%= @domains.first %>-ssl.access.log;
   index index.php;
   ssl on;
-  ssl_certificate /etc/nginx/ssl/<%= @application[:domains].first %>.crt;
-  ssl_certificate_key /etc/nginx/ssl/<%= @application[:domains].first %>.key;
+  ssl_certificate /etc/nginx/ssl/<%= @domains.first %>.crt;
+  ssl_certificate_key /etc/nginx/ssl/<%= @domains.first %>.key;
   <% if @application[:ssl_certificate_ca] -%>
-  ssl_client_certificate /etc/nginx/ssl/<%= @application[:domains].first %>.ca;
+  ssl_client_certificate /etc/nginx/ssl/<%= @domains.first %>.ca;
   <% end -%>
   
   # Block all svn access

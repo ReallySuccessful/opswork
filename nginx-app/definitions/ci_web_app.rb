@@ -3,6 +3,8 @@ define :ci_web_app, :template => "site.erb", :enable => true do
 
   application = params[:application]
   application_name = params[:name]
+  deploy_type = params[:deploy_type]
+
 
   template "#{node['nginx-app']['config_dir']}/sites-enabled/#{application_name}.conf" do
     Chef::Log.debug("Generating Nginx site template for #{application_name.inspect}")
@@ -16,6 +18,7 @@ define :ci_web_app, :template => "site.erb", :enable => true do
     variables(
       :application => application,
       :application_name => application_name,
+      :domains => deploy_type[:domains]
       :params => params
     )
     if File.exists?("#{node['nginx-app']['config_dir']}/sites-enabled/#{application_name}.conf")
@@ -32,7 +35,7 @@ define :ci_web_app, :template => "site.erb", :enable => true do
       mode 0600
     end
 
-    template "#{node['nginx-app']['config_dir']}/ssl/#{application[:domains].first}.crt" do
+    template "#{node['nginx-app']['config_dir']}/ssl/#{deploy_type[:domains].first}.crt" do
       cookbook 'nginx'
       mode '0600'
       source "ssl.key.erb"
@@ -43,7 +46,7 @@ define :ci_web_app, :template => "site.erb", :enable => true do
       end
     end
 
-    template "#{node['nginx-app']['config_dir']}/ssl/#{application[:domains].first}.key" do
+    template "#{node['nginx-app']['config_dir']}/ssl/#{deploy_type[:domains].first}.key" do
       cookbook 'nginx'
       mode '0600'
       source "ssl.key.erb"
@@ -54,7 +57,7 @@ define :ci_web_app, :template => "site.erb", :enable => true do
       end
     end
 
-    template "#{node['nginx-app']['config_dir']}/ssl/#{application[:domains].first}.ca" do
+    template "#{node['nginx-app']['config_dir']}/ssl/#{deploy_type[:domains].first}.ca" do
       cookbook 'nginx'
       mode '0600'
       source "ssl.key.erb"
