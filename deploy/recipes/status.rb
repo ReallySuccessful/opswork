@@ -39,16 +39,19 @@ node[:deploy].each do |application, deploy_data|
 
 end	
 
-all_results[:server_details] = {
+message_to_send = { 
+	:applications => all_results, 
+	:server_details => {
 	    "hostname" => node[:opsworks][:instance][:hostname],
 	    "instance_id" => node[:opsworks][:instance][:id],
 	    "instance_type" => node[:opsworks][:instance][:instance_type],
-	    "public_ip" => node[:opsworks][:instance][:ip],
+	    "public_ip" => node[:opsworks][:instance][:ip]
+	} 
 }
 
 # send post to MAMA
 http_request "Alerting mama !" do
 	action :post
 	url "http://mamabot.herokuapp.com/webhook/dev"
-	message :data => all_results
+	message message_to_send
 end	
