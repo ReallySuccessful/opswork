@@ -6,6 +6,8 @@ all_results = {}
 
 node[:deploy].each do |application, deploy_data|
 
+	all_results[application] = {}
+
 	app_role = deploy_data[:deploy_layer]
 
 	if !instance_layer.include?("develop")
@@ -30,14 +32,13 @@ node[:deploy].each do |application, deploy_data|
     find.run_command    
     last_commit = find.stdout
     hostname = node['hostname']
-	@payload = {
+
+	all_results[application][hostname] = {
 	    "version" => tag,
 		"last_commit" => last_commit,
 		"branch" => deploy_branch,
 		"domains" => deploy_domains
-	}    
-
-	all_results[application][hostname] = @payload
+	} 
 
 end	
 
