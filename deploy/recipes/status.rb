@@ -45,6 +45,7 @@ end
 
 # send post to MAMA
 http_request "Alerting mama !" do
-action :post
-url "http://mamabot.herokuapp.com/webhook/dev"
-message :data => all_results
+	action :post
+	url "http://mamabot.herokuapp.com/webhook/dev"
+	message :data => all_results
+end	
