@@ -45,7 +45,8 @@ message_to_send = {
 	    "hostname" => node[:opsworks][:instance][:hostname],
 	    "instance_id" => node[:opsworks][:instance][:id],
 	    "instance_type" => node[:opsworks][:instance][:instance_type],
-	    "public_ip" => node[:opsworks][:instance][:ip]
+	    "public_ip" => node[:opsworks][:instance][:ip],
+	    "layer" => instance_layer
 	} 
 }
 
