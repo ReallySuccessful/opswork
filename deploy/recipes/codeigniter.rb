@@ -45,11 +45,18 @@ node[:deploy].each do |application, deploy_data|
     cookbook "nginx-app"
   end
 
+  @payload = {
+      "hostname" => node['hostname'],
+      "application" => application,
+      "domains" => deploy_domains,
+      "branch" => deploy_branch
+    }
+
   # send post to MAMA
   http_request "Alerting mama !" do
     action :post
     url "http://mamabot.herokuapp.com/webhook/dev"
-    message :data => "\nNew deployment on #{node['hostname']} [Application: #{application} // Domain: #{deploy_domains.first} // Branch: #{deploy_branch}]\n"
+    message :data => @payload
   end
 
 end
