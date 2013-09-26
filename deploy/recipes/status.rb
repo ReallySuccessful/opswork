@@ -2,7 +2,7 @@ include_recipe "php-fpm::service"
 
 instance_layer = node["opsworks"]["instance"]["layers"]
 
-all_results = {}
+all_results = Array.new
 
 node[:deploy].each do |application, deploy_data|
 
@@ -39,7 +39,7 @@ node[:deploy].each do |application, deploy_data|
 		"domains" => deploy_domains
 	}    
 
-	all_results[] = @payload
+	all_results.push = @payload
 
 end	
 
