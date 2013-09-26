@@ -31,10 +31,6 @@ node[:deploy].each do |application, deploy_data|
     last_commit = find.stdout
 
 	all_results[application] = {
-	    "hostname" => node[:opsworks][:instance][:hostname],
-	    "instance_id" => node[:opsworks][:instance][:id],
-	    "instance_type" => node[:opsworks][:instance][:instance_type],
-	    "public_ip" => node[:opsworks][:instance][:ip],
 	    "running_version" => tag,
 		"last_commit" => last_commit,
 		"branch" => deploy_branch,
@@ -42,6 +38,13 @@ node[:deploy].each do |application, deploy_data|
 	}
 
 end	
+
+all_results[:server_details] = {
+	    "hostname" => node[:opsworks][:instance][:hostname],
+	    "instance_id" => node[:opsworks][:instance][:id],
+	    "instance_type" => node[:opsworks][:instance][:instance_type],
+	    "public_ip" => node[:opsworks][:instance][:ip],
+}
 
 # send post to MAMA
 http_request "Alerting mama !" do
