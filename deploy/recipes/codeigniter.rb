@@ -50,8 +50,6 @@ node[:deploy].each do |application, deploy_data|
 end
 
 
-ruby_block "Send message to MAMA once everything is done and restart NGINX :)" do
-  block do
 
     node[:deploy].each do |application, deploy_data|
       if !instance_layer.include?("develop")
@@ -107,6 +105,4 @@ ruby_block "Send message to MAMA once everything is done and restart NGINX :)" d
       command "/etc/init.d/nginx restart"
     end
 
-  end
-end
 
