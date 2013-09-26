@@ -2,7 +2,7 @@ include_recipe "php-fpm::service"
 
 instance_layer = node["opsworks"]["instance"]["layers"]
 
-all_results = Array.new
+all_results = {}
 
 node[:deploy].each do |application, deploy_data|
 
@@ -29,17 +29,15 @@ node[:deploy].each do |application, deploy_data|
     find = Mixlib::ShellOut.new("cd /srv/www/#{application}/current && git show --summary")
     find.run_command    
     last_commit = find.stdout
-
+    hostname = node['hostname']
 	@payload = {
-	    "hostname" => node['hostname'],
-	    "application" => application,
 	    "version" => tag,
 		"last_commit" => last_commit,
 		"branch" => deploy_branch,
 		"domains" => deploy_domains
 	}    
 
-	all_results.push = @payload
+	all_results[application][hostname] = @payload
 
 end	
 
