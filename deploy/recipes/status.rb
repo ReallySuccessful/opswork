@@ -31,12 +31,15 @@ node[:deploy].each do |application, deploy_data|
     last_commit = find.stdout
 
 	all_results[application] = {
-	    "server" => node['hostname'],
+	    "hostname" => node[:hostname],
+	    "instance_id" => node[:id],
+	    "instance_type" => node[:instance_type],
+	    "public_ip" => node[:ip],
 	    "running_version" => tag,
 		"last_commit" => last_commit,
 		"branch" => deploy_branch,
 		"domains" => deploy_domains
-	} 
+	}
 
 end	
 
