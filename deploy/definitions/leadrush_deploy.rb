@@ -135,6 +135,7 @@ define :leadrush_deploy do
               :memcached => node[:deploy][application][:memcached],
               :layers => node[:opsworks][:layers],
               :stack_name => node[:opsworks][:stack][:name],
+              :layer => node[:opsworks][:instance][:layers]
               # TODO: we need to found a way to extract the current git tag
               :revision => find.stdout
             )
