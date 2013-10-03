@@ -32,7 +32,7 @@ class LeadrushAPP {
     $this->memcached = new LeadrushMemcached();
     $this->stack_map = array(<%= @layers.map {|layer_short_name, layer| "'#{layer_short_name}' => array(#{layer['instances'].values.map {|instance| "'#{instance['private_ip']}'"}.join(', ') })"}.join(', ') %>);
     $this->stack_name = '<%= @stack_name %>';
-    $this->revision = '<%= @revision %>';
+    $this->revision = '<%= @revision.strip! %>';
     $this->layer = '<%= @layer.first %>';
   }
 
