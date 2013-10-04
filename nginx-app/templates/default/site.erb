@@ -48,6 +48,7 @@ server {
   server_name  <%= @domains.join(" ") %>;
   access_log  <%= node[:nginx][:log_dir] %>/<%= @domains.first %>-ssl.access.log;
   index index.php;
+  root   <%= @application[:absolute_document_root] %>;  
   ssl on;
   ssl_certificate /etc/nginx/ssl/<%= @domains.first %>.crt;
   ssl_certificate_key /etc/nginx/ssl/<%= @domains.first %>.key;
