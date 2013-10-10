@@ -12,9 +12,6 @@ server {
   }
 
   location @phpmyadmin {
-    fastcgi_buffers 8 256k;
-    fastcgi_buffer_size 128k;
-    fastcgi_intercept_errors on;
     include fastcgi_params;
     fastcgi_param SCRIPT_FILENAME <%= node[:phpmyadmin][:nginx][:docroot] %>/index.php;
     fastcgi_param SCRIPT_NAME /index.php;
@@ -22,9 +19,6 @@ server {
   }
   
   location ~ \.php$ {
-  	fastcgi_buffers 8 256k;
-    fastcgi_buffer_size 128k;
-    fastcgi_intercept_errors on;
     include fastcgi_params;
     fastcgi_index  index.php;
     fastcgi_param SCRIPT_FILENAME <%= node[:phpmyadmin][:nginx][:docroot] %>$fastcgi_script_name;
