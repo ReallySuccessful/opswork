@@ -3,7 +3,7 @@ maintainer        "David Lemarier"
 maintainer_email  "david@reallysuccessful.com"
 license           "BSD License"
 description       "Installs and configures an nginx for our appservers."
-version           "0.1"
+version           "0.2"
 recipe            "nginx-app::server", "Installs Nginx"
 
 depends "php-fpm"
