@@ -17,6 +17,7 @@ node[:deploy].each do |application, deploy_data|
     application deploy_data
     deploy_domains deploy_domains
     cookbook "nginx-app"
+    environment "development"
   end
 
   # dump mysql data

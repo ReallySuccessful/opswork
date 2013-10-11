@@ -45,6 +45,8 @@ node[:deploy].each do |application, deploy_data|
     application deploy_data
     deploy_domains deploy_domains
     cookbook "nginx-app"
+    environment "production"
+
   end
 
 end
