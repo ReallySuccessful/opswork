@@ -23,7 +23,7 @@ default[:phpmyadmin][:webserver]                    =   'nginx'
 default[:phpmyadmin][:nginx][:port]                 =   8889
 default[:phpmyadmin][:nginx][:server_name]          =   'localhost'
 default[:phpmyadmin][:nginx][:docroot]              =   default[:phpmyadmin][:cfg][:path]
-default[:phpmyadmin][:nginx][:fastcgi_server]       =   'unix:/var/run/php-fpm/www-data'
+default[:phpmyadmin][:nginx][:fastcgi_server]       =   'unix:/var/run/php-fpm-www-data'
 
 
 

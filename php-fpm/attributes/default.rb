@@ -12,6 +12,6 @@ default["php-fpm"]["memorylimit"] = "512M"
 default["php-fpm"]["user"] = "www-data"
 default["php-fpm"]["group"] = "www-data"
 default["php-fpm"]["tmpdir"] = "/tmp/php"
-default["php-fpm"]["socketdir"] = "/var/run/php-fpm"
+default["php-fpm"]["socketdir"] = "/var/run"
 
 default["php-fpm"]["packages"] = "php5-fpm,php5-cli,php5-memcache,php5-gd,php5-curl,php-apc,php5-mysql"
