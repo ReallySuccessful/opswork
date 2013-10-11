@@ -5,7 +5,6 @@ define :ci_web_app, :template => "site.erb", :enable => true do
   application_name = params[:name]
   deploy_domains = params[:deploy_domains]
 
-
   template "#{node['nginx-app']['config_dir']}/sites-enabled/#{application_name}.conf" do
     Chef::Log.debug("Generating Nginx site template for #{application_name.inspect}")
     source params[:template]
@@ -19,7 +18,8 @@ define :ci_web_app, :template => "site.erb", :enable => true do
       :application => application,
       :application_name => application_name,
       :domains => deploy_domains,
-      :params => params
+      :params => params,
+      :environment => params[:environment]
     )
     if File.exists?("#{node['nginx-app']['config_dir']}/sites-enabled/#{application_name}.conf")
       notifies :reload, "service[nginx]", :delayed
