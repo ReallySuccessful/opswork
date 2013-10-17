@@ -1,9 +1,11 @@
 # This recipe is necessary to do a simple `pecl install gearman` on Ubuntu Lucid
 include_recipe "php-fpm::source"
 
-deps = ["libgearman-dev"]
+deps = ["libgearman-dev","php-pear"]
 deps.each do |p|
-  package p
+  package p do
+    action :install
+  end
 end
 
 bash "pecl gearman" do
