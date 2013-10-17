@@ -10,5 +10,6 @@ recipe            "php-gearman::pecl", "Installs ext/gearman from PECL."
 depends "php-fpm"
 depends "php"
 depends "apt"
+depends "apt-repo"
 
 supports 'ubuntu'
