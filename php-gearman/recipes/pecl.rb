@@ -1,5 +1,8 @@
 include_recipe "php-fpm::source"
 
+# app ppa
+ppa "gearman-developers/ppa"
+
 deps = ["libgearman-dev","php-pear","debconf"]
 deps.each do |p|
   package p do
@@ -12,7 +15,7 @@ bash "pecl gearman" do
   cwd "/tmp"
   code <<EOH
   pecl channel-update pecl.php.net
-  pear install pecl/gearman
+  pear install pecl/gearman-1.1.1
   echo "extension=gearman.so" > /etc/php5/conf.d/gearman.ini
 EOH
 end
