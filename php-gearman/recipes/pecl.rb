@@ -13,7 +13,11 @@ bash "pecl gearman" do
   code <<EOH
   pecl channel-update pecl.php.net
   pear install pecl/gearman
-  echo "extension=gearman.so" > /etc/php5/fpm/gearman.ini
-  echo "extension=gearman.so" > /etc/php5/cli/gearman.ini
+  echo "extension=gearman.so" > /etc/php5/fpm/conf.d/gearman.ini
+  echo "extension=gearman.so" > /etc/php5/cli/conf.d/gearman.ini
 EOH
+end
+
+execute "fpm restart" do
+  command "/etc/init.d/php-fpm restart"
 end
