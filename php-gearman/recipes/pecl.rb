@@ -1,6 +1,6 @@
 include_recipe "php-fpm::source"
 
-deps = ["libgearman-dev","php-pear"]
+deps = ["libgearman-dev","php-pear","debconf"]
 deps.each do |p|
   package p do
     action :install
