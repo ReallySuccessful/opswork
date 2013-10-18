@@ -1,6 +1,6 @@
 package "supervisor"
 
-template "/etc/supervisord.conf" do
+template "/etc/supervisor/conf.d/quickfire.conf" do
     source "quickfire.supervisord.conf.erb"
     variables(
       :number_worker         => 1,
@@ -8,6 +8,7 @@ template "/etc/supervisord.conf" do
     )
 end
 
-service "supervisor" do
-  reload_command "supervisorctl update"
+
+execute "supervisor restart" do
+  command "/etc/init.d/supervisor restart"
 end
