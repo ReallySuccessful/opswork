@@ -9,11 +9,3 @@ autostart=true
 autorestart=true
 user=gearman
 stopsignal=KILL
-
-[program:gearman]
-command=/usr/sbin/gearmand --pid-file=/var/run/gearman/gearmand.pid --user=gearman --daemon --log-file=/var/log/gearman-job-server/gearman.log --listen=127.0.0.1
-numprocs=1
-stdout_logfile=/dev/null
-autostart=true
-autorestart=true
-stopsignal=KILL
