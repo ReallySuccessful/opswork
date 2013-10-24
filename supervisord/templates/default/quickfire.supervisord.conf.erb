@@ -4,7 +4,7 @@ numprocs=<%= @number_worker %>
 process_name=%(program_name)s_%(process_num)02d
 directory=<%= @working_dir %>
 stdout_logfile=/var/log/gearman-job-server/quickfire.log
-environment=GEARMAN_USER=gearman
+environment=GEARMAN_USER=gearman,CI_ENV=development
 autostart=true
 autorestart=true
 user=gearman
