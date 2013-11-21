@@ -8,6 +8,7 @@ node[:deploy].each do |application, deploy_info|
 
   # merge deploy json
   deploy_data = deploy_info.merge(node[:deploy_config][application])
+  node[:deploy][application] = deploy_data;
 
   Chef::Log.debug("[LEADRUSH] MERGED APP SETTINGS");
   Chef::Log.debug(deploy_data);
