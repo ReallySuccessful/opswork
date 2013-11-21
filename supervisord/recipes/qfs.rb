@@ -10,5 +10,5 @@ end
 
 
 execute "supervisor restart" do
-  command "/etc/init.d/supervisor restart"
+  command "supervisorctl reload"
 end
