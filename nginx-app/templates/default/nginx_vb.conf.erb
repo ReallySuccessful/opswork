@@ -1,0 +1,28 @@
+user www-data;
+worker_processes 4;
+
+error_log  /var/log/nginx/error.log error;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include         /etc/nginx/mime.types;
+    default_type    application/octet-stream;
+
+    access_log      off;
+
+    sendfile           off;
+    tcp_nopush         on;
+    keepalive_timeout  0;
+    tcp_nodelay        on;
+    gzip               on;
+
+    upstream phpfpm {
+        server  unix:/var/run/php-fpm-<%= node["nginx-app"][:user] %>;
+    }
+
+    include /etc/nginx/sites-enabled/*.conf;
+}

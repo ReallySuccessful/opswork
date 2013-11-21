@@ -4,7 +4,13 @@ instance_layer = node["opsworks"]["instance"]["layers"]
 
 all_results = {}
 
-node[:deploy].each do |application, deploy_data|
+node[:deploy].each do |application, deploy_info|
+
+  # merge deploy json
+  deploy_data = deploy_info.merge(node[:deploy_config][application])
+
+  Chef::Log.debug("[LEADRUSH] MERGED APP SETTINGS");
+  Chef::Log.debug(deploy_data);
 
   app_role = deploy_data[:deploy_layer]
 

@@ -4,16 +4,8 @@ numprocs=<%= @number_worker %>
 process_name=%(program_name)s_%(process_num)02d
 directory=<%= @working_dir %>
 stdout_logfile=/var/log/gearman-job-server/quickfire.log
-environment=GEARMAN_USER=gearman
+environment=GEARMAN_USER=gearman,CI_ENV=<%= @environment %>
 autostart=true
 autorestart=true
-user=gearman
-stopsignal=KILL
-
-[program:gearman]
-command=/usr/sbin/gearmand --pid-file=/var/run/gearman/gearmand.pid --user=gearman --daemon --log-file=/var/log/gearman-job-server/gearman.log --listen=127.0.0.1
-numprocs=1
-stdout_logfile=/dev/null
-autostart=true
-autorestart=true
+user=www-data
 stopsignal=KILL

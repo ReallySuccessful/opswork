@@ -16,6 +16,7 @@ bash "pecl gearman" do
   code <<EOH
   pecl channel-update pecl.php.net
   pear install pecl/gearman-1.1.1
+  pear install pear/Net_Gearman-0.2.3
   echo "extension=gearman.so" > /etc/php5/conf.d/gearman.ini
 EOH
 end
