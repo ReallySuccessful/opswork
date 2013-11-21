@@ -131,8 +131,8 @@ define :leadrush_deploy do
             find.run_command
             Chef::Log.debug("CURRENT APP VERSION: #{find.stdout}")
             variables(
-              :database => deploy[:database],
-              :memcached => deploy[:memcached],
+              :database => node[:deploy_config][application][:database],
+              :memcached => node[:deploy][application][:memcached],
               :layers => node[:opsworks][:layers],
               :stack_name => node[:opsworks][:stack][:name],
               :layer => node[:opsworks][:instance][:layers],
