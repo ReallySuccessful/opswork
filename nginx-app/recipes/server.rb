@@ -5,7 +5,7 @@ ohai "reload_passwd" do
   plugin "passwd"
 end
 
-package "nginx" do
+package "nginx-full" do
   notifies :reload, "ohai[reload_passwd]", :immediately
 end
 
